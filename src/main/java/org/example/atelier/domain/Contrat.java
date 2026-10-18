@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "contrat")
@@ -27,4 +29,13 @@ public class Contrat {
 
     @Column(nullable = false)
     private boolean valide;
+
+    // Côté inverse : composition, un paiement n'existe pas sans son contrat
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL,
+               orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Paiement> paiements = new ArrayList<>();
+
+    // Côté propriétaire du OneToOne : porte la clé étrangère reservation_id_reservation
+    @OneToOne(fetch = FetchType.LAZY)
+    private Reservation reservation;
 }

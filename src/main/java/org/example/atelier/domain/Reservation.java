@@ -27,4 +27,15 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatutReservation statut;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Client client;
+
+    // Unidirectionnelle : une réservation connaît son véhicule
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Vehicule vehicule;
+
+    // Côté inverse du OneToOne : le contrat porte la clé étrangère
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Contrat contrat;
 }

@@ -4,6 +4,9 @@ package org.example.atelier.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "agence")
 @Getter
@@ -27,4 +30,11 @@ public class Agence {
 
     @Column(length = 20)
     private String telephone;
+
+    // Aucune cascade : un véhicule survit à son agence
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    private List<Vehicule> vehicules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    private List<Employe> employes = new ArrayList<>();
 }
